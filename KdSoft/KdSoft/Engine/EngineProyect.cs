@@ -187,7 +187,7 @@ namespace KdSoft.Engine
 
                 },
                 to = ListaTo(),
-                templateId = 7,
+                templateId = 8,
                 paramse =new SendiBlueTransaccional.Params()
                 {
                     name="santiago",
@@ -209,12 +209,21 @@ namespace KdSoft.Engine
 
         private List<SendiBlueTransaccional.To> ListaTo()
         {
+            EngineData Valor = EngineData.Instance();
+            ContactsSendiBlue listaContacts = Valor.ListaSendiBlueContacto;
             List<SendiBlueTransaccional.To> l = new List<SendiBlueTransaccional.To>();
-            SendiBlueTransaccional.To i = new SendiBlueTransaccional.To() {
-                email = "efrainmejiasc@yahoo.com",
-                name = "santiago mejias "
-            };
-            l.Add(i);
+            string[] p = new string[2];
+            foreach (ContactsSendiBlue.Contact item in listaContacts.contacts)
+            {
+                p = item.email.Split('@');
+                SendiBlueTransaccional.To i = new SendiBlueTransaccional.To()
+                {
+                    email = item.email,
+                    name = p[0]
+                };
+                l.Add(i);
+             }
+          
             return l;
         }
 
@@ -233,7 +242,7 @@ namespace KdSoft.Engine
                 mensaje.BodyEncoding = System.Text.Encoding.UTF8;
                 mensaje.IsBodyHtml = true;
                 mensaje.To.Add(new MailAddress("efrain.mejias@kdsoft.io"));
-                servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos2@gmail.com", "GcMSdqpbV7D2sfP9");
+                servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos2@gmail.com", EngineData.ApiClaveSendiBlue);
                 servidor.Port = 587;
                 servidor.Host = "smtp-relay.sendinblue.com";
                 servidor.EnableSsl = true;

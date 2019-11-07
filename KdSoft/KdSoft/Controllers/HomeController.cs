@@ -26,9 +26,9 @@ namespace KdSoft.Controllers
             //await Funcion.GetToken("https://us20.api.mailchimp.com");
             //************************SENDIBLUE**********************************************************************************************************************************
             // await Funcion.CreateContactSendiBlue("https://api.sendinblue.com/v3/contacts");
-            // await Funcion.GetAllContactSendiBlue("https://api.sendinblue.com/v3/contacts");
-            await Funcion.SendMailSendiBlue("https://api.sendinblue.com/v3/smtp/email");
-            //Funcion.EnviarEmail();
+            //await Funcion.GetAllContactSendiBlue("https://api.sendinblue.com/v3/contacts");
+            //await Funcion.SendMailSendiBlue("https://api.sendinblue.com/v3/smtp/email");
+            Funcion.EnviarEmail();
         }
 
         public IActionResult About()

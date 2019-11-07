@@ -28,9 +28,9 @@ namespace KdSoft.Engine
 
         public static string ApiKeySendiBlue { get; set; }
 
-        public ContactsSendiBlue ListaSendiBlueContacto { get; set; }
+        public static string ApiClaveSendiBlue { get; set; }
 
-        public List<SendiBlueTransaccional> ListaSendiBlueContactoTransaccional { get; set; }
+        public ContactsSendiBlue ListaSendiBlueContacto { get; set; }
 
     }
 }
