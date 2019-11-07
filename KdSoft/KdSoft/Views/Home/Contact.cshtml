@@ -1,17 +1,444 @@
-﻿@{
-    ViewData["Title"] = "Contact";
-}
-<h2>@ViewData["Title"]</h2>
-<h3>@ViewData["Message"]</h3>
+﻿<!DOCTYPE html>
+<html style="overflow: visible;">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="copyright" content="Copyright (c) 2019 Mailchimp. All Rights Reserved.">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="/release/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50/css/less/typefaces.css">
+    <link rel="stylesheet" type="text/css" href="/release/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50/css/less/application.css">
 
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
+    <script type="application/json" id="js-flag-data">
+        {"6cffec9f7a410bb158612200828bd522":false}
+    </script>
+    <script mc:noreorder>
+            window.gtmData = {
+            hasUser: false,
+            userId: null,
+            loginId: null,
+            UA: "UA-329148-81",
+            version: "1",
+            gaDimensions: [],
+            deferToGTM: false        };
 
-<address>
-    <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+    (function /* gtmAPI */ () {
+
+        function buildCustomDimensions() {
+            var result = { 9: window.gtmData.version.toString() };
+            if(window.gtmData.hasUser) {
+                result[8] = window.gtmData.userId.toString();
+                result[24] = window.gtmData.loginId.toString();
+            }
+
+            var dims = window.gtmData.gaDimensions;
+            Object.keys(dims).forEach(function(dim) {
+                var index = parseInt(dim.replace('dimension', ''));
+                if(!isNaN(index)) {
+                    // sometimes things get into this array that are not numbered dimensions
+                    result[index] = dims[dim];
+                }
+            });
+            return result;
+        }
+
+        function gtmPayload(hitType, data) {
+            data = data || {};
+
+            data['_gtm_deferred'] = window.gtmData.deferToGTM;
+            data['type'] = hitType;
+            data['UA'] = window.gtmData.UA;
+            data['customDimensions'] = buildCustomDimensions();
+
+            data['customVariables'] = data['customVariables'] || {};
+            data['customVariables']['eventSource'] = 'gtm';
+            return data;
+        }
+
+        /**
+         * Records a GTM event, with custom variables. Accepts either:
+         *
+         *   gtmEvent('event category', { 'foo': 'bar' })
+         *
+         * or:
+         *
+         *   gtmEvent({
+         *     'eventCategory': 'event category',
+         *     'eventAction': 'event action',
+         *     'eventLabel': 'etc',
+         *     'eventValue': 1
+         *    }, { 'foo': 'bar' })
+         *
+         * For eventInfo guidelines see:
+         *   https://support.google.com/analytics/answer/1033068?hl=en
+         */
+        window.gtmEvent = function(eventInfo, customVariables) {
+            if(typeof eventInfo === 'string') {
+                eventInfo = { 'eventCategory': eventInfo };
+            }
+            customVariables = customVariables || {};
+
+            var event = gtmPayload('EVENT', {
+                'event': 'e_action',
+                'eventInfo': eventInfo,
+                'customVariables': customVariables
+            });
+
+            window.dataLayer.push(event);
+        };
+
+        window.dataLayer = [gtmPayload('PAGE')];
+    })();
+    </script>
+    <script mc:noreorder>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-MCZTKL');
+    // setup the GA command queue
+    window['GoogleAnalyticsObject'] = '_ga';
+    window._ga = window._ga || function() {
+        window._ga.q = window._ga.q || [];
+        window._ga.q.push(arguments);
+    };
+    </script>
+
+
+    <script mc:noreorder>
+    function debuglog() {
+        if(typeof window._debug_analytics !== 'undefined' && window._debug_analytics) {
+            console.log.apply(console, arguments);
+        }
+    }
+
+    window.ga = function /*decoratedGoogleAnalytics*/() {
+        var args = [].slice.call(arguments, 0);
+        if (typeof args[0] === 'string'
+            && args[0] !== 'create'
+            && args[0] !== 'provide') {
+            args[0] = 't0.' + args[0];
+        }
+        debuglog('ga', args);
+        return _ga.apply(this, args);
+    };
+
+    (function /*initializeGoogleAnalytics*/() {
+        var gtmData = window.gtmData;
+
+        var dimensions = {
+            USER_ID: 'dimension8',
+            LOGIN_ID: 'dimension24',
+            TRACKING_VERSION: 'dimension9'
+        };
+
+        function trackGA() {
+            if (gtmData.hasUser) {
+                ga("create", gtmData.UA, "auto", {
+                    allowLinker: false,
+                    userId: gtmData.userId,
+                    name: 't0'
+                });
+
+                ga("set", dimensions.USER_ID, gtmData.userId.toString());
+                ga("set", dimensions.LOGIN_ID, gtmData.loginId.toString());
+            } else {
+                ga("create", gtmData.UA, "auto", {
+                    allowLinker: false,
+                    name: 't0'
+                });
+            }
+
+            ga("set", "transport", "beacon");
+
+            ga("set", dimensions.TRACKING_VERSION, gtmData.version);
+
+            ga("require","linker");
+            ga("linker:autoLink", [/(.*\.)?mailchimp(app)?\.com$/], !1,!0);
+
+            // Add logging in the console for interesting params
+            // see: https://developers.google.com/analytics/devguides/collection/analyticsjs/tasks
+            // TODO: Move logging into a UI (details TBD)
+            ga(function (tracker) {
+                var originalSendHitTask = tracker.get("sendHitTask");
+                tracker.set("sendHitTask", function(model) {
+                    originalSendHitTask(model);
+                    var payload = model.get("hitPayload");
+
+                    if ("URLSearchParams" in window) {
+                        var params = new URLSearchParams(payload.toString());
+
+                        var t = params.get('t');
+                        var ec = params.get('ec');
+                        var ea = params.get('ea');
+                        var el = params.get('el');
+
+                        console.group("%cEvent tracking", "color: #241C15; background-color: #FF3EBF; padding: 4px; font-weight: 400;");
+                        console.log("Hit type (t)\t\t", t);
+                        console.log("Event category (ec)\t", ec);
+                        console.log("Event action (ea)\t", ea);
+                        console.log("Event label (el)\t", el);
+                        console.groupEnd();
+
+                        /**
+                         * Dispatch custom track event to all subscribers/listeners
+                         */
+                        window.dispatchEvent(
+                            new CustomEvent('mc:track', {
+                                detail: {
+                                  t: t,
+                                  ec: ec,
+                                  ea: ea,
+                                  el: el,
+                                  date: Date.now()
+                                }
+                            })
+                        );
+                    }
+                });
+            });
+
+            ga("send", "pageview", gtmData.gaDimensions);
+        }
+
+        if (typeof window.ga === 'function' && !gtmData.deferToGTM) {
+            trackGA();
+        }
+    })();
+
+    (function () {
+        function getCookie(check_name) {
+            var a_all_cookies = document.cookie.split(';');
+            var a_temp_cookie = '';
+            var cookie_name = '';
+            var cookie_value = '';
+            var b_cookie_found = false;
+
+            for (i = 0; i < a_all_cookies.length; i++) {
+                a_temp_cookie = a_all_cookies[i].split('=');
+                cookie_name = a_temp_cookie[0].replace(/^\s+|\s+$/g, '');
+                if (cookie_name === check_name) {
+                    b_cookie_found = true;
+                    if (a_temp_cookie.length > 1) {
+                        cookie_value = unescape(a_temp_cookie[1].replace(/^\s+|\s+$/g, ''));
+                    }
+                    return cookie_value;
+                }
+                a_temp_cookie = null;
+                cookie_name = '';
+            }
+
+            if (!b_cookie_found) {
+                return null;
+            }
+        }
+        // Save tracking id and client id to a cookie so we can use them server side
+        setTimeout(function () {
+            if (typeof window.ga === 'function' && !getCookie('_mcga')) {
+                ga(function (tracker) {
+                    var gaData = {
+                        tid: tracker.get('trackingId'),
+                        cid: tracker.get('clientId')
+                    };
+                    document.cookie = '_mcga=' + JSON.stringify(gaData) + ';path=/;domain=.mailchimp.com';
+                });
+            }
+        }, 1);
+    })();
+    </script>
+    <style type="text/css">
+        .login-oauth--customlogo {
+            background: url('/images/connected.png') no-repeat scroll 50% 50% / 60px transparent;
+        }
+    </style>
+</head>
+<body id="login" class="login-oauth">
+    <noscript> <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MCZTKL" height="0" width="0" style="display:none;visibility:hidden"> </iframe> </noscript>   <div id="login-box">
+        <div id="content">
+            <div id="login-form-wrap" class="mc-mini-content centered">
+                <div id="login-content" class="line">
+                    <div class="login-oauth--connection alignc table"> <span class="login-oauth--icon table-cell full-height"> <div class="login-oauth--customlogo full-height border-radius--lv2" alt="Mailchimp"></div> </span> <span class="login-oauth--connector table-cell full-height valign-middle"> <img src="/release/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50/images/talking-arrows-oauth.png" width="60"> </span> <span class="login-oauth--icon table-cell full-height"> <div class="login-oauth--freddie full-height" alt="Mailchimp"></div> </span> </div>  <div class="lastUnit size1of1 overflow-visible flex-shrink-none"> <div id="av-flash-block" class="c-flashBlock">     </div> </div>    <div class="line !margin-bottom--lv6"> <div class="lastUnit size1of1 alignc"> <h4 class="!margin-bottom--lv2">Connect <span class="fwn">SocialWifi</span> to your account</h4> <p class="!margin--lv0">Red Social</p> </div> </div>   <div class="line !margin-bottom--lv8">
+                        <div class="lastUnit size1of1">
+                            <form  id="login-form" method="POST" novalidate="novalidate">
+                                <input type="hidden" aria-hidden="true" name="multiple" class="av-hidden" value="" id="multiple"> 
+                                <input type="hidden" aria-hidden="true" name="referrer" class="av-hidden" value="" id="referrer">
+                                <input type="hidden" aria-hidden="true" name="p" class="av-hidden" value="eyJjbGllbnRfaWQiOiIyMTMzMTQxMDkzOTQiLCJyZXNwb25zZV90eXBlIjoiY29kZSIsInJlZGlyZWN0X3VyaSI6Imh0dHBzOlwvXC93d3cuc3Vkb2t1ZGV0b2Rvcy5jb20iLCJzdGF0ZSI6bnVsbCwic2NvcGUiOm51bGx9" id="p"> <fieldset>
+                                    <div class="login-field">
+                                <label for="username" class="placeholder ">Username</label>
+                                <input type="text" name="username" class=" av-text" value="" id="username"> </div> <div class="login-field">
+                                <label for="password" class="placeholder ">Password</label> 
+                                <input type="password" name="password" class=" av-password" value="" id="password"> </div> <p></p>
+                                    <div class="line"> <input type="submit" value="Log In" class="button p0" onclick="mojo.utils.toggleButtonLoadingState(this);"> </div>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var xhr_open = XMLHttpRequest.prototype.open;
+    XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+        xhr_open.call(this, method, url, async, user, password);
+        if (url.match(/^\/(?!\/)+/)) {
+            this.setRequestHeader('X-CSRF-Token', '51322ec5b5f137ec7d6f07694e7760b6e663dda3');
+        }
+    }
+    </script>
+    <script src="/release/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50/js/dojo/dojo.js" data-dojo-config="parseOnLoad: true, usePlainJson: true, isDebug: false"></script>
+    <script src="/release/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50/js/dojo/mccommon.js"></script>
+    <script type="text/javascript">
+    // The following dojo require places mojo.utils on the window.
+    // Many html files and javascript views rely on this property existing.
+    // Search for "mojo.utils" in any *.html files, and you'll find the hundreds of cases.
+    // Leaving this for historical reasons, but eventually migrating those usages would be good.
+    dojo.require("mojo.utils");
+
+    require(["mojo/widgets/Dialog"]);
+
+    // Leaving it globally since we used it around
+    window.rootUrl = '/';
+
+    require([
+        "dojo/query",
+    ], function (query) {
+        // captcha takes a global function to callback
+        window.captchaSuccess = function () {
+            query('[data-mc-el="captchaAutoSubmit"]')[0].submit();
+        };
+    });
+
+    require([
+        "dojo/_base/lang",
+        "mojo/user",
+        "mojo/context",
+    ], function (lang, user, context) {
+        // Add defaults to the actual modules.
+
+        lang.mixin(context, {
+            'rootUrl': '/',
+
+            'proxyBaseUrl': "https:\/\/d2q0qd5iz04n9u.cloudfront.net\/_ssl\/proxy.php",
+
+            'listManageDomain': "list-manage.com",
+
+            'pusherKey': "74d7188a67461f12439a",
+
+            'cdnImagesDomain': "cdn-images.mailchimp.com",
+
+            'galleryDomain': "gallery.mailchimp.com",
+
+            'avestaEnvironment': "prod",
+
+            "imageEditorUrl": "https:\/\/dme0ih8comzn4.cloudfront.net\/imaging\/v3\/editor.js",
+
+            "imageEditorKey": "0e6dcf36c54b4faf965e45884a3dcf30",
+
+            "solvvyUrl": "\/js\/vendor\/solvvy\/solvvy_v3.js",
+
+            "enabledFlags": ["compliance_login_device_cookie_pw_reset_utma","compliance_new_regex_policy_random","plums.prospective_updates","plums.gtm_user_context","google_sdk_update","met_mctx_open_click_tracking","zendesk_customer_tier_chat","zendesk_track_ref_param","zendesk_tag_pizza_cohort","no_user_chat","validate_login_user_by_username","partner_platform_api_utma","partner_platform_api_root_ping","retry_login_cacheclient","eventbrite_affiliate_links","remove_login_flashblock","partner_exp.spp.v1.enable_openid_exceed","security.login_cookie_test_removal","security.blacklist_accounts_api","update_cross_shard_jobs"],
+
+            "bridgeBundles": {"vendor.js":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/vendor.09b6b94e.js","social-posts.css":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/social-posts.f09445cf.css","social-posts.js":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/social-posts.f09445cf.js","paywall.css":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/paywall.f09445cf.css","paywall.js":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/paywall.f09445cf.js","campaign-calendar.css":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/campaign-calendar.f09445cf.css","campaign-calendar.js":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/campaign-calendar.f09445cf.js","reports.css":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/reports.f09445cf.css","reports.js":"\/release\/1.1.1d254152e460ccfc986dfb43fe8fa78dd9b52ea50\/js-src\/reports.f09445cf.js"},
+
+            "googleOAuth2": {
+                "clientId": "964489109950.apps.googleusercontent.com",
+                "browserKey": "AIzaSyDHWeEm7vJ952wojVZbYhY5gg7xH5RW7oU",
+            },
+        });
+
+
+    });
+        require([
+        "vendor/bugsnag/bugsnag",
+        "mojo/user",
+        "mojo/context",
+        "mojo/lib/flags",
+    ], function (bugsnag, user, context, flags) {
+        bugsnag.endpoint = "https:\/\/notify.bugsnag.com\/";
+        bugsnag.apiKey = "25a45ff280fd45b3de9973285a3880c2";
+        bugsnag.autoNotify = true;
+        bugsnag.user = {
+            id: user.userId,
+            type: user.type,
+        };
+        bugsnag.appVersion = user.appVersion;
+
+        if (!bugsnag.metaData) {
+            bugsnag.metaData = {};
+        }
+        bugsnag.metaData.flags = {};
+
+        var trackedFlags = [
+            flags.CHANNELS_EXTRACT_CONTENT_MANAGER
+        ];
+
+        trackedFlags.forEach(function (flag) {
+            bugsnag.metaData.flags[flag] = context.flagIsOn(flag);
+        });
+
+        /*
+        [FP-157]: This field is for FP team to identify errors that
+        get triggered from webpack-built dojo bundles.
+        beforeNotify is a field that applies to the older version of
+        bugsnag that we currently use for dojo code. For newer version,
+        use `beforeSend`.
+        */
+        bugsnag.beforeNotify = function(payload) {
+            if (/js-legacy/.test(payload.stacktrace)) {
+                /* we currently have a device field in metaData
+                so we would not want to override it */
+                if (payload.metaData) {
+                    payload.metaData.bundle = 'webpack'
+                } else {
+                    payload.metaData = {
+                        bundle: 'webpack',
+                    };
+                }
+            }
+        };
+    });
+
+    require([
+        "dojo/Deferred",
+        "vendor/bugsnag/bugsnag",
+    ], function (Deferred, bugsnag) {
+        Deferred.instrumentRejected = function (error, handled, rejection, deferred) {
+            if (handled === true) {
+                return;
+            }
+
+            if (typeof error === "string") {
+                bugsnag.notify(error);
+            } else if (error instanceof Error) {
+                bugsnag.notifyException(error);
+            } else {
+                bugsnag.notify("UnhandledDeferredRejection", error);
+            }
+        };
+    });
+    </script>
+    <script>
+        (function(){
+            var $form = document.getElementById('login-form');
+            function callFunctionWithTimeout(fn, timeout){
+                var called = false;
+                function wrapped(){
+                    if (!called) {
+                        called = true;
+                        fn();
+                    }
+                }
+                setTimeout(wrapped, timeout || 1000);
+                return wrapped;
+            }
+            $form.addEventListener('submit', function(event){
+                event.preventDefault();
+                ga('send', 'event', 'oauth2 login', 'submit', {
+                    hitCallback: callFunctionWithTimeout(function() {
+                        $form.submit();
+                    }, 1000)
+                })
+            })
+        })()
+    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KdSoft.Models;
+using KdSoft.Engine;
 
 namespace KdSoft.Controllers
 {
@@ -12,7 +13,22 @@ namespace KdSoft.Controllers
     {
         public IActionResult Index()
         {
+            MetodosMail();
             return View();
+        }
+
+        private async Task MetodosMail ()
+        {
+            EngineProyect Funcion = new EngineProyect();
+            //************************MAILCHIMP **********************************************************************************************************************************
+            //await Funcion.LogMailChimp("https://us20.api.mailchimp.com/3.0/");
+            //await Funcion.AddMemberMailChimp("https://us20.api.mailchimp.com/3.0/lists/c2af783892/members/");
+            //await Funcion.GetToken("https://us20.api.mailchimp.com");
+            //************************SENDIBLUE**********************************************************************************************************************************
+            // await Funcion.CreateContactSendiBlue("https://api.sendinblue.com/v3/contacts");
+            // await Funcion.GetAllContactSendiBlue("https://api.sendinblue.com/v3/contacts");
+            await Funcion.SendMailSendiBlue("https://api.sendinblue.com/v3/smtp/email");
+            //Funcion.EnviarEmail();
         }
 
         public IActionResult About()
@@ -22,9 +38,9 @@ namespace KdSoft.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Contact( string username , string password)
         {
-            ViewData["Message"] = "Your contact page.";
+
 
             return View();
         }

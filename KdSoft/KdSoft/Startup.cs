@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KdSoft.Engine;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,9 +15,14 @@ namespace KdSoft
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private IConfigurationBuilder builder;
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Configuration = configuration;
+            this.builder = new ConfigurationBuilder()
+              .SetBasePath(env.ContentRootPath)
+              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+              .AddEnvironmentVariables();
         }
 
         public IConfiguration Configuration { get; }
@@ -31,6 +37,12 @@ namespace KdSoft
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            EngineData.ClientIdMailChimp= Configuration["MailChimpData:ClientId"];
+            EngineData.ClientSecretMailChimp = Configuration["MailChimpData:ClientSecret"];
+            EngineData.ApiKeyMailChimp = Configuration["MailChimpData:ApiKey"];
+            EngineData.PasswordMailChimp = Configuration["MailChimpData:Password"];
+
+            EngineData.ApiKeySendiBlue = Configuration["SendiBlueData:ApiKey"];
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -51,6 +63,13 @@ namespace KdSoft
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+           //**************************************************************************************************************
+            this.builder = new ConfigurationBuilder()
+           .SetBasePath(env.ContentRootPath)
+           .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+           .AddEnvironmentVariables();
+           //********************************************************************************************************
 
             app.UseMvc(routes =>
             {
