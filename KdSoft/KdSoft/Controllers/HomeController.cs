@@ -34,14 +34,16 @@ namespace KdSoft.Controllers
             //await Funcion.LogMailChimp("https://us20.api.mailchimp.com/3.0/");
             //await Funcion.AddMemberMailChimp("https://us20.api.mailchimp.com/3.0/lists/c2af783892/members/");
             //await Funcion.GetToken("https://us20.api.mailchimp.com");
+
+
             //************************SENDIBLUE**********************************************************************************************************************************
-            // await Funcion.CreateContactSendiBlue("https://api.sendinblue.com/v3/contacts");
+            //await Funcion.CreateContactSendiBlue("https://api.sendinblue.com/v3/contacts");
             //await Funcion.GetAllContactSendiBlue("https://api.sendinblue.com/v3/contacts");
             //await Funcion.SendMailSendiBlue("https://api.sendinblue.com/v3/smtp/email");
             // Funcion.EnviarEmail();
 
-            string path =  Path.Combine(_env.ContentRootPath, "Helpers/templates", "BodyMarketing.html");
-            Funcion.EnviarEmail(path);
+            /*string path =  Path.Combine(_env.ContentRootPath, "Helpers/templates", "BodyMarketing.html");
+            Funcion.EnviarEmail(path);*/
         }
 
         public IActionResult About()
