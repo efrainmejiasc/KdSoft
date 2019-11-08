@@ -43,6 +43,9 @@ namespace KdSoft
             EngineData.PasswordMailChimp = Configuration["MailChimpData:Password"];
 
             EngineData.ApiKeySendiBlue = Configuration["SendiBlueData:ApiKey"];
+            EngineData.ApiClaveSendiBlue = Configuration["SendiBlueData:SmtClave"];
+
+            EngineDb.DefaultConnection = Configuration["ConnectionStrings:Default"];
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

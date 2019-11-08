@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,91 +15,9 @@ namespace KdSoft.Engine
 {
     public class EngineProyect
     {
-     //************************MAILCHIMP **********************************************************************************************************************************
-        public async Task<string>  LogMailChimp (string endPoint)
-        {
-            string respuesta = string.Empty;
-            RespuestaMailChimp resultado = new RespuestaMailChimp();
-            using (HttpClient client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Clear();
-                System.Net.CredentialCache credentialCache = new System.Net.CredentialCache();
-                String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(EngineData.ClientIdMailChimp + ":" + EngineData.ApiKeyMailChimp));
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", encoded);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("accept-language", "en_ES");
-                HttpResponseMessage response = await client.GetAsync(endPoint);
-                if (response.IsSuccessStatusCode)
-                {
-                    respuesta = await response.Content.ReadAsStringAsync();
-                    resultado = JsonConvert.DeserializeObject<RespuestaMailChimp>(respuesta);
-                }
-                else
-                {
-                    respuesta = response.IsSuccessStatusCode.ToString();
-                }
-            }
-            return respuesta;
-        }
+   
 
-        public async Task<string> AddMemberMailChimp (string endPoint)
-        {
-            string respuesta = string.Empty;
-            RespuestaMailChimpAddMember  resultado = new RespuestaMailChimpAddMember();
-            string jsonData = DataMember();
-            using (HttpClient client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Accept.Clear();
-                System.Net.CredentialCache credentialCache = new System.Net.CredentialCache();
-                String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(EngineData.ClientIdMailChimp + ":" + EngineData.ApiKeyMailChimp));
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", encoded);
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Add("accept-language", "en_ES");
-                HttpResponseMessage response = await client.PostAsync(endPoint, new StringContent(jsonData, Encoding.UTF8, "application/json"));
-                if (response.IsSuccessStatusCode)
-                {
-                    respuesta = await response.Content.ReadAsStringAsync();
-                    resultado = JsonConvert.DeserializeObject<RespuestaMailChimpAddMember>(respuesta);
-                }
-                else
-                {
-                    respuesta = response.IsSuccessStatusCode.ToString();
-                }
-            }
-            return respuesta;
-        }
-
-
-        private string DataMember()
-        {
-            NewMemberMailChimp jsonData = new NewMemberMailChimp()
-            {
-                email_address = "emcingenieriadesoftware@outlock.com",
-                status= "subscribed",
-                merge_fields = new NewMemberMailChimp.MergeFields
-                {
-                    FNAME ="Emc",
-                    LNAME ="Ingenieria de Software"
-                }
-            };
-            string resultado = JsonConvert.SerializeObject(jsonData);
-            return resultado;
-        }
-
-
-
-        private string CreateMember()
-        {
-            NewMemberSendiBlue jsonData = new NewMemberSendiBlue()
-            {
-               email = "emcingenieriadesoftware@outlook.com",
-	           updateEnabled = false
-            };
-            string resultado = JsonConvert.SerializeObject(jsonData);
-            return resultado;
-        }
-
-        //************************SENDIBLUE**********************************************************************************************************************************
+        //************************SENDIBLUE CREAR CONTACTO *********************************************************************************************************************************
 
         public async Task<string> CreateContactSendiBlue(string endPoint)
         {
@@ -122,6 +42,25 @@ namespace KdSoft.Engine
             }
             return respuesta;
         }
+
+        private string CreateMember()
+        {
+            NewMemberSendiBlue jsonData = new NewMemberSendiBlue()
+            {
+                email = "efrainmejiasnuevo2@hotmail.com",
+                updateEnabled = false,
+                attributes = new NewMemberSendiBlue.Attributes()
+                {
+                    NOMBRE = "EEMejias",
+                    SURNAME = "MejiasCastillo",
+                    SMS = "584127568941"
+                }
+            };
+            string resultado = JsonConvert.SerializeObject(jsonData);
+            return resultado;
+        }
+
+        //************************SENDIBLUE OBTENER LISTA DE CONTACTOS *********************************************************************************************************************************
 
         public async Task<string> GetAllContactSendiBlue(string endPoint)
         {
@@ -148,6 +87,7 @@ namespace KdSoft.Engine
             return respuesta;
         }
 
+        //************************SENDIBLUE ENVIAR CORREO TRANSACCIONAL*********************************************************************************************************************************
 
         public async Task<string> SendMailSendiBlue(string endPoint)
         {
@@ -172,7 +112,6 @@ namespace KdSoft.Engine
             }
             return respuesta;
         }
-
 
 
         private string CreateTransaccional()
@@ -227,12 +166,13 @@ namespace KdSoft.Engine
             return l;
         }
 
-
+        //************************SENDIBLUE ENVIAR DESDE SERVIDOR SMTP *********************************************************************************************************************************
         public bool EnviarEmail()
         {
             bool result = false;
             try
             {
+
                 MailMessage mensaje = new MailMessage();
                 SmtpClient servidor = new SmtpClient();
                 mensaje.From = new MailAddress("SocialWifi <sudokuparatodos2@gmail.com>");
@@ -241,7 +181,7 @@ namespace KdSoft.Engine
                 mensaje.Body = "Test SMTP SendiBlue SocialWifi";
                 mensaje.BodyEncoding = System.Text.Encoding.UTF8;
                 mensaje.IsBodyHtml = true;
-                mensaje.To.Add(new MailAddress("efrain.mejias@kdsoft.io"));
+                mensaje.To.Add(new MailAddress("efrainmejiasc@yahoo.com"));
                 servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos2@gmail.com", EngineData.ApiClaveSendiBlue);
                 servidor.Port = 587;
                 servidor.Host = "smtp-relay.sendinblue.com";
@@ -258,6 +198,155 @@ namespace KdSoft.Engine
             return result;
 
         }
+
+        public bool EnviarEmail(string body)
+        {
+            bool result = false;
+            EngineDb Metodo = new EngineDb();
+            List<SendiBlueContact> Contact = Metodo.GetSendiBlueContacts();
+            body = File.ReadAllText(body);
+            try
+            {
+
+                MailMessage mensaje = new MailMessage();
+                SmtpClient servidor = new SmtpClient();
+                mensaje.From = new MailAddress("SocialWifi <sudokuparatodos2@gmail.com>");
+                mensaje.Subject = "Test SMTP SendiBlue SocialWifi  Transaccional";
+                mensaje.SubjectEncoding = System.Text.Encoding.UTF8;
+                mensaje.Body = body;
+                mensaje.BodyEncoding = System.Text.Encoding.UTF8;
+                mensaje.IsBodyHtml = true;
+                foreach(SendiBlueContact item in Contact)
+                { 
+                   mensaje.To.Add(new MailAddress(item.Email));
+                }
+                servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos2@gmail.com", EngineData.ApiClaveSendiBlue);
+                //servidor.Credentials = new System.Net.NetworkCredential("sudokuparatodos2@gmail.com", "1234santiago");
+                servidor.Port = 587;
+                servidor.Host = "smtp-relay.sendinblue.com";
+                //servidor.Host = "smtp.gmail.com";
+                servidor.EnableSsl = true;
+                servidor.Send(mensaje);
+                mensaje.Dispose();
+                EngineDb Metodo2 = new EngineDb();
+                result = Metodo2.InsertSendiBlueCampaing(SaveInfoCampaingSend(Contact, body));
+                
+            }
+            catch (Exception ex)
+            {
+                string n = ex.ToString();
+            }
+
+            return result;
+
+        }
+
+
+        private List<SendiBlueCampaing> SaveInfoCampaingSend (List<SendiBlueContact> Contact, string htmlCode)
+        {
+            List<SendiBlueCampaing> info = new List<SendiBlueCampaing>();
+            int n = 0;
+            foreach(SendiBlueContact item in Contact)
+            {
+                SendiBlueCampaing x = new SendiBlueCampaing();
+                x.IdSendiBlueContact = item.Id;
+                x.NameCampaing = "Test SocialWifi";
+                x.HtmlCode = htmlCode;
+                x.DateSend = DateTime.UtcNow;
+                info.Insert(n, x);
+                n++;
+            }
+            return info;
+        }
+
+        private List<string> EmailTo()
+        {
+            List<string> To = new List<string>();
+            To.Add("efrainmejiasc@gmail.com");
+            To.Add("efrainmejiasc@hotmail.com");
+            To.Add("efrain.mejiac@kdsoft.io");
+            To.Add("emcingenieriadesoftware@outlook.com");
+            return To;
+        }
+        //***********************************************************SENDIBLUEND**********************************************************************************************
+        //********************************************************************************************************************************************************************
+        //********************************************************************************************************************************************************************
+
+
+        //************************MAILCHIMP **********************************************************************************************************************************
+
+        public async Task<string> LogMailChimp(string endPoint)
+        {
+            string respuesta = string.Empty;
+            RespuestaMailChimp resultado = new RespuestaMailChimp();
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                System.Net.CredentialCache credentialCache = new System.Net.CredentialCache();
+                String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(EngineData.ClientIdMailChimp + ":" + EngineData.ApiKeyMailChimp));
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", encoded);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("accept-language", "en_ES");
+                HttpResponseMessage response = await client.GetAsync(endPoint);
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    resultado = JsonConvert.DeserializeObject<RespuestaMailChimp>(respuesta);
+                }
+                else
+                {
+                    respuesta = response.IsSuccessStatusCode.ToString();
+                }
+            }
+            return respuesta;
+        }
+
+        public async Task<string> AddMemberMailChimp(string endPoint)
+        {
+            string respuesta = string.Empty;
+            RespuestaMailChimpAddMember resultado = new RespuestaMailChimpAddMember();
+            string jsonData = DataMember();
+            using (HttpClient client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Accept.Clear();
+                System.Net.CredentialCache credentialCache = new System.Net.CredentialCache();
+                String encoded = System.Convert.ToBase64String(System.Text.Encoding.GetEncoding("ISO-8859-1").GetBytes(EngineData.ClientIdMailChimp + ":" + EngineData.ApiKeyMailChimp));
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", encoded);
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Add("accept-language", "en_ES");
+                HttpResponseMessage response = await client.PostAsync(endPoint, new StringContent(jsonData, Encoding.UTF8, "application/json"));
+                if (response.IsSuccessStatusCode)
+                {
+                    respuesta = await response.Content.ReadAsStringAsync();
+                    resultado = JsonConvert.DeserializeObject<RespuestaMailChimpAddMember>(respuesta);
+                }
+                else
+                {
+                    respuesta = response.IsSuccessStatusCode.ToString();
+                }
+            }
+            return respuesta;
+        }
+
+
+        private string DataMember()
+        {
+            NewMemberMailChimp jsonData = new NewMemberMailChimp()
+            {
+                email_address = "efrainmejias@yahoo.com",
+                status = "subscribed",
+                merge_fields = new NewMemberMailChimp.MergeFields
+                {
+                    FNAME = "emejias",
+                    LNAME = "castillo"
+                }
+            };
+            string resultado = JsonConvert.SerializeObject(jsonData);
+            return resultado;
+        }
+
+
+
 
         //********************************************************************************************************************************************************************
 

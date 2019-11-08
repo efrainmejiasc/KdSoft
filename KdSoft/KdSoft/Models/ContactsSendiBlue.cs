@@ -25,6 +25,11 @@ namespace KdSoft.Models
 
         public class Attributes
         {
+            public string First_Name { get; set; }
+
+            public string Last_Name { get; set; }
+
+            public string SMS { get; set; }
         }
     }
 }
