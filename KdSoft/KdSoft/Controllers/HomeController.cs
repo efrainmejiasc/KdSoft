@@ -38,12 +38,12 @@ namespace KdSoft.Controllers
 
             //************************SENDIBLUE**********************************************************************************************************************************
             //await Funcion.CreateContactSendiBlue("https://api.sendinblue.com/v3/contacts");
-            //await Funcion.GetAllContactSendiBlue("https://api.sendinblue.com/v3/contacts");
-            //await Funcion.SendMailSendiBlue("https://api.sendinblue.com/v3/smtp/email");
+            await Funcion.GetAllContactSendiBlue("https://api.sendinblue.com/v3/contacts");
+            await Funcion.SendMailSendiBlue("https://api.sendinblue.com/v3/smtp/email");
             // Funcion.EnviarEmail();
 
-            /*string path =  Path.Combine(_env.ContentRootPath, "Helpers/templates", "BodyMarketing.html");
-            Funcion.EnviarEmail(path);*/
+            //string path =  Path.Combine(_env.ContentRootPath, "Helpers/templates", "BodyMarketing.html");
+            //Funcion.EnviarEmail(path);
         }
 
         public IActionResult About()

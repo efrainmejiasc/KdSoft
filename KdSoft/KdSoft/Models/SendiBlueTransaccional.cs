@@ -13,9 +13,11 @@ namespace KdSoft.Models
 
         public int templateId { get; set; }
 
-        public Params paramse {get;set;}
+        public Params paramse { get; set; }
 
         public Headers headers { get; set; }
+
+        public string subject { get; set; }
 
         public class Sender
         {
@@ -39,8 +41,7 @@ namespace KdSoft.Models
         {
             public string xxxx { get; set; }
             public string charset { get; set; }
+        }
+
     }
-
-
-}
 }

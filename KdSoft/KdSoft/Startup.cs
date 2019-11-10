@@ -72,7 +72,7 @@ namespace KdSoft
            .SetBasePath(env.ContentRootPath)
            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
            .AddEnvironmentVariables();
-           //********************************************************************************************************
+           //*************************************************************************************************************
 
             app.UseMvc(routes =>
             {

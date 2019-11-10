@@ -126,7 +126,7 @@ namespace KdSoft.Engine
 
                 },
                 to = ListaTo(),
-                templateId = 8,
+                templateId = 9,
                 paramse =new SendiBlueTransaccional.Params()
                 {
                     name="santiago",
