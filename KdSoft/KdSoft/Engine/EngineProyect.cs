@@ -126,7 +126,7 @@ namespace KdSoft.Engine
 
                 },
                 to = ListaTo(),
-                templateId = 9,
+                templateId =10,
                 paramse =new SendiBlueTransaccional.Params()
                 {
                     name="santiago",
@@ -146,23 +146,42 @@ namespace KdSoft.Engine
         }
 
 
+        /* private List<SendiBlueTransaccional.To> ListaTo()
+         {
+             EngineData Valor = EngineData.Instance();
+             ContactsSendiBlue listaContacts = Valor.ListaSendiBlueContacto;
+             List<SendiBlueTransaccional.To> l = new List<SendiBlueTransaccional.To>();
+             string[] p = new string[2];
+             foreach (ContactsSendiBlue.Contact item in listaContacts.contacts)
+             {
+                 p = item.email.Split('@');
+                 SendiBlueTransaccional.To i = new SendiBlueTransaccional.To()
+                 {
+                     email = item.email,
+                     name = p[0]
+                 };
+                 l.Add(i);
+              }
+
+             return l;
+         }*/
+
+
         private List<SendiBlueTransaccional.To> ListaTo()
         {
             EngineData Valor = EngineData.Instance();
             ContactsSendiBlue listaContacts = Valor.ListaSendiBlueContacto;
             List<SendiBlueTransaccional.To> l = new List<SendiBlueTransaccional.To>();
-            string[] p = new string[2];
-            foreach (ContactsSendiBlue.Contact item in listaContacts.contacts)
-            {
-                p = item.email.Split('@');
+
+
                 SendiBlueTransaccional.To i = new SendiBlueTransaccional.To()
                 {
-                    email = item.email,
-                    name = p[0]
+                    email = "efrainmejiasc@gmail.com",
+                    name = "efrain mejias"
                 };
                 l.Add(i);
-             }
-          
+            
+
             return l;
         }
 
