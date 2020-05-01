@@ -25,11 +25,17 @@ namespace KdSoftWebApi.Controllers
         {
             IActionResult response = Unauthorized();
             //AUTENTIFICACION CONTRA DB
+            if (!Autentificacion())
+            {
+                return BadRequest(new AuthorizationFailure { 
+                    error = "NO AUTENTICADO"
+                });
+            }
+
 
             string unicoIdentificador = Guid.NewGuid().ToString();
-            int expire = 10;
             DateTime time = DateTime.Now;
-            DateTime expireTime = time.AddDays(Convert.ToInt32(expire));
+            DateTime expireTime = time.AddMinutes(EngineData.LifeTime);
             var tokenString = GenerateTokenJwt(login, unicoIdentificador, time, expireTime);
             response = Ok(new
             {
@@ -39,8 +45,7 @@ namespace KdSoftWebApi.Controllers
                 refresh_token = unicoIdentificador,
                 email = login.Email,
                 user = login.Username,
-                password = login.Password,
-             
+                password = login.Password
             });
 
             return response;
@@ -52,7 +57,7 @@ namespace KdSoftWebApi.Controllers
             var secretKey = EngineData.JwtKey;
             var audienceToken = EngineData.JwtAudience;
             var issuerToken = EngineData.JwtIssuer;
-
+            //
             var securityKey = new SymmetricSecurityKey(Encoding.Default.GetBytes(secretKey));
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
@@ -81,7 +86,7 @@ namespace KdSoftWebApi.Controllers
         }
 
 
-        [Authorize (AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         [ActionName("ClientList")]
         public List<Client> ListClient(int id)
@@ -131,4 +136,5 @@ namespace KdSoftWebApi.Controllers
 
         }
     }
+
 }

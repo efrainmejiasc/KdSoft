@@ -38,6 +38,7 @@ namespace KdSoftWebApi
             EngineData.JwtKey = Configuration["Jwt:Key"];
             EngineData.JwtIssuer = Configuration["Jwt:Issuer"];
             EngineData.JwtAudience = Configuration["Jwt:Audience"];
+            EngineData.LifeTime = Convert.ToInt32(Configuration["Jwt:LifeTime"]);
 
             //JasonWebToken JWt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

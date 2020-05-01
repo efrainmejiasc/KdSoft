@@ -27,5 +27,7 @@ namespace KdSoftWebApi.Engine
         public static string JwtIssuer { get; set; }
 
         public static string JwtAudience { get; set; }
+
+        public static int  LifeTime { get; set; }
     }
 }
